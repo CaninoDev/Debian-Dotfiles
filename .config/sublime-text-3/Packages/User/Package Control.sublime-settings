@@ -1,0 +1,19 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"A File Icon",
+		"Boxy Theme",
+		"Color Highlighter",
+		"Dotfiles Syntax Highlighting",
+		"Elixir",
+		"ElixirSublime",
+		"Package Control",
+		"Package Syncing",
+		"SyntaxHighlightTools",
+		"Themr"
+	]
+}
