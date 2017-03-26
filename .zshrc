@@ -1,3 +1,4 @@
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.npm-global/bin:$PATH
 
@@ -7,7 +8,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="sporty_256"
+ZSH_THEME="norm"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -116,6 +117,8 @@ case "$TERM" in
     linux*)
       if [ -n "$FBTERM" ]; then
         export TERM=fbterm
+				# Source the color calibration for fbterm
+				source /usr/local/sbin/fbinit.zsh
       fi
       ;;
 esac
@@ -134,5 +137,4 @@ alias config='/usr/bin/git --git-dir=/home/caninodev/.dotfiles/ --work-tree=/hom
 alias pi='ssh -XY pilittle.bittencock.com'
 
 export GOROOT=/home/caninodev/.local/share/go
-export PATH=/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/home/caninodev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.local/share/go/bin
-export GOPATH=/home/caninodev/src/go
+#export PATH=/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/home/caninodev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.local/share/go/bin
