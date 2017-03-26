@@ -10,10 +10,14 @@
 		"Color Highlighter",
 		"Dotfiles Syntax Highlighting",
 		"Elixir",
+		"ElixirPlayground",
 		"ElixirSublime",
+		"GitGutter",
 		"Package Control",
 		"Package Syncing",
+		"SublimeLinter-contrib-elixirc",
 		"SyntaxHighlightTools",
+		"Theme - Phoenix",
 		"Themr"
 	]
 }
