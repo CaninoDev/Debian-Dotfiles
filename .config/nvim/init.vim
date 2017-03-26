@@ -16,7 +16,7 @@ set backspace+=start           " ┘ in insert mode.
 set cursorline                 " Highlight the current line.
 hi CursorLine cterm=bold gui=bold
 
-"ket cpoptions+=$               " When making a change, don't
+"set cpoptions+=$               " When making a change, don't
                                " redisplay the line, and instead,
                                " put a `$` sign at the end of
                                " the changed text.
@@ -71,8 +71,6 @@ set synmaxcol=2500             " Limit syntax highlighting (this
                                " when files contain long lines).
 
 set title                      " Show the filename in the window titlebar.
-
-"hget ttyfast                    " Enable fast terminal connection.
 
 "set virtualedit=all            " Allow cursor to be anywhere.
 
@@ -361,22 +359,8 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
-"
 " ----------------------------------------------------------------------
-" | Plugins - Startify																									 |
-" ----------------------------------------------------------------------
-
-augroup startify
-		autocmd!
-		autocmd vimrc StdinReadPre * let s:std_in=1
-		" If nvim is started without an input file start up Startify
-		if argc() == 0 && !exists("s:sdt_in=1") |
-				Startify
-		end
-augroup end
-
-" ----------------------------------------------------------------------
-" | Plugins - NERDTree                                                   |
+" | Plugins - NERDTree                                                 |
 " ----------------------------------------------------------------------
 
 let NERDTreeShowHidden = 1
@@ -570,5 +554,3 @@ map <leader>n :NERDTreeToggle<CR>
 
 " [\v ] Make the opening of the `.vimrc` file easier.
 nmap <leader>v :vsp $MYVIMRC<CR>
-
-
