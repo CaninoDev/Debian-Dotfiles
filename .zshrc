@@ -1,4 +1,36 @@
-
+# First set the $TERM
+case "$TERM" in
+    xterm*)
+				# I don't want tmux running in xwindows
+				export ZSH_TMUX_AUTOSTART=false
+				if [ -e /lib/terminfo/x/xterm-256color ]; then
+					export TERM=xterm-256color
+				elif [ -e /lib/terminfo/x/xterm-color ]; then
+					export TERM=xterm-color;
+				else
+					export TERM=xterm
+				fi
+	    ;;
+    screen*)
+				# Ditto as above
+				export ZSH_TMUX_AUTOSTART=false
+				if [ -e /lib/terminfo/s/screen-256color ]; then
+					export TERM=screen-256color;
+				elif [ -e /lib/terminfo/s/screen-256color-bce-s ]; then
+					export TERM=screen-256color-bce-s ];
+				else
+					export TERM=screen
+				fi
+	    ;;
+    linux*)
+			export ZSH_TMUX_AUTOSTART=true
+      if [ -n "$FBTERM" ]; then
+        export TERM=fbterm
+				# Source the color calibration for fbterm
+				source /usr/local/sbin/fbinit.zsh
+      fi
+      ;;
+esac
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.npm-global/bin:$PATH
 
@@ -15,7 +47,7 @@ ZSH_THEME="norm"
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -53,9 +85,8 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # For oh-my-zsh Tmux plugin to start:
-export ZSH_TMUX_AUTOSTART=false
 
-plugins=(battery git history colored-man ssh-agent colorize sublime history-substring-search compleat ubuntu yarn nice-exit-code elixir)
+plugins=(tmux battery git history colored-man ssh-agent colorize sublime history-substring-search compleat ubuntu yarn nice-exit-code elixir)
 
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
@@ -82,7 +113,6 @@ ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-export SSH_KEY_PATH="~/.ssh/id_rsa"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -92,49 +122,21 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export NODE_PATH=/usr/lib/nodejs:/usr/lib/node_modules:/usr/share/javascript:/home/ianga/.npm-global/lib/node_modules:/home/ianga/.npm-global/lib/node_modules
-
-# Set $TERM
-case "$TERM" in
-    xterm*)
-	    if [ -e /lib/terminfo/x/xterm-256color ]; then
-		    export TERM=xterm-256color
-	    elif [ -e /lib/terminfo/x/xterm-color ]; then
-		    export TERM=xterm-color;
-	    else
-		    export TERM=xterm
-	    fi
-	    ;;
-    screen*)
-	    if [ -e /lib/terminfo/s/screen-256color ]; then
-		    export TERM=screen-256color;
-	    elif [ -e /lib/terminfo/s/screen-256color-bce-s ]; then
-		    export TERM=screen-256color-bce-s ];
-	    else
-		    export TERM=screen
-	    fi
-	    ;;
-    linux*)
-      if [ -n "$FBTERM" ]; then
-        export TERM=fbterm
-				# Source the color calibration for fbterm
-				source /usr/local/sbin/fbinit.zsh
-      fi
-      ;;
-esac
+export NODE_PATH=/usr/lib/nodejs:/usr/lib/node_modules:/usr/share/javascript:lib:$HOME/.npm-global/node_modules
 
 #Set PATHS
-export PATH="$PATH:$HOME/.rvm/bin:$HOME/.npm-global/bin" # Add RVM to PATH for scripting
-export PATH="$PATH:$HOME/.npm-global/bin" # Add local NPM global directory for execution
+export PATH="$PATH:$HOME/.rvm/bin:$HOME/.npm-global/bin" # Add RVM and NPM to PATH for scripting
+export GOROOT=/home/caninodev/.local/share/go
+export SSH_KEY_PATH="$HOME/.ssh/id_rsa"
 #
-# Alias for primary server
-alias oldboy='ssh -XY ianga@oldboy.bittencock.com'
 # Run fortune
 /usr/games/fortune
 echo "\n"
 # alias config for dotfiles
 alias config='/usr/bin/git --git-dir=/home/caninodev/.dotfiles/'
 alias pi='ssh -XY pilittle.bittencock.com'
+# Alias sudo to use user directory for caching reference
 alias sudo='sudo -H'
-export GOROOT=/home/caninodev/.local/share/go
+# Alias for primary server
+alias oldboy='ssh -XY ianga@oldboy.bittencock.com'
 #export PATH=/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/home/caninodev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.local/share/go/bin
