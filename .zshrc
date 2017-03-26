@@ -135,6 +135,6 @@ echo "\n"
 # alias config for dotfiles
 alias config='/usr/bin/git --git-dir=/home/caninodev/.dotfiles/'
 alias pi='ssh -XY pilittle.bittencock.com'
-
+alias sudo='sudo -H'
 export GOROOT=/home/caninodev/.local/share/go
 #export PATH=/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/home/caninodev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.local/share/go/bin
