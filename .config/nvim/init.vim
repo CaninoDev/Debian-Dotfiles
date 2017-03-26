@@ -16,14 +16,14 @@ set backspace+=start           " ┘ in insert mode.
 set cursorline                 " Highlight the current line.
 hi CursorLine cterm=bold gui=bold
 
-set cpoptions+=$               " When making a change, don't
+"ket cpoptions+=$               " When making a change, don't
                                " redisplay the line, and instead,
                                " put a `$` sign at the end of
                                " the changed text.
 
 set laststatus=2               " Always show the status line.
 
-"set lazyredraw                 " Do not redraw the screen while
+set lazyredraw                 " Do not redraw the screen while
                                " executing macros, registers
                                " and other commands that have
                                " not been typed.
@@ -42,7 +42,7 @@ set number                     " Show line number.
 set numberwidth=5              " Increase the minimal number of
                                " columns used for the `line number`.
 set report=0                   " Report the number of lines changed.
-set relativenumber             " Use relative line numbers. Current line is still in status bar.
+"set relativenumber             " Use relative line numbers. Current line is still in status bar.
 
 set ruler                      " Show cursor position.
 
@@ -72,7 +72,7 @@ set synmaxcol=2500             " Limit syntax highlighting (this
 
 set title                      " Show the filename in the window titlebar.
 
-set ttyfast                    " Enable fast terminal connection.
+"hget ttyfast                    " Enable fast terminal connection.
 
 "set virtualedit=all            " Allow cursor to be anywhere.
 
@@ -118,7 +118,7 @@ nnoremap N Nzzzv
 " File Administration
 " ____________________
 
-set encoding=utf-8 nobomb       " Use UTF-8 without BOM.
+set encoding=utf-8							 " Use UTF-8 without BOM.
 set fileencoding=utf-8
 set binary
 
@@ -213,7 +213,8 @@ endfunction
 " Initialize Plugin and specify the path
 " where the plugins should be installed.
 call plug#begin('~/.local/share/nvim/plugged')
-
+" 24b Colorschemes
+Plug 'rakr/vim-one'
 " Status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -272,7 +273,10 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'chrisbra/Colorizer'
 " Syntax Highlighting for tmux.conf files
 Plug 'keith/tmux.vim'
-
+" Colorschmes
+Plug 'flazz/vim-colorschemes'
+" Integration with tmux and iTerm2
+Plug 'wincent/terminus'
 call plug#end()
 
 if has("autocmd")
@@ -357,6 +361,20 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
+"
+" ----------------------------------------------------------------------
+" | Plugins - Startify																									 |
+" ----------------------------------------------------------------------
+
+augroup startify
+		autocmd!
+		autocmd vimrc StdinReadPre * let s:std_in=1
+		" If nvim is started without an input file start up Startify
+		if argc() == 0 && !exists("s:sdt_in=1") |
+				Startify
+		end
+augroup end
+
 " ----------------------------------------------------------------------
 " | Plugins - NERDTree                                                   |
 " ----------------------------------------------------------------------
@@ -364,14 +382,13 @@ endif
 let NERDTreeShowHidden = 1
 let NERDTreeMouseMode = 2
 let NERDTreeMinimalUI = 1
+
 augroup nerd_tree
 		autocmd!
 		autocmd vimrc StdinReadPre * let s:std_in=1
-		" If nvim is started without an input file or directory, start up NERDTree
+		" If nvim is started with an input directory, start up NERDTree
 		autocmd vimrc VimEnter *
-			\ if argc() == 0 && !exists("s:std_in") |
-			\   NERDTree |
-			\ elseif argc() == 1 && isdirectory(argv(0)) |
+			\ if argc() == 1 && isdirectory(argv(0)) |
 			\   bd |
 			\   exec 'cd' fnameescape(argv(0)) |
 			\   NERDTree |
@@ -394,8 +411,6 @@ augroup indentguides
 						\ ctermbg=DarkMagenta
 augroup end
 
-
-
 " ----------------------------------------------------------------------
 " | Plugins - tsuquyomi                                                |
 " ----------------------------------------------------------------------
@@ -404,7 +419,7 @@ let g:typescript_compiler_binary = 'tsuquyomi'
 let g:typescript_compiler_options = ''
 
 " ----------------------------------------------------------------------
-" | Automatic Commands                                                 |
+" | Misc. Automatic Commands                                           |
 " ----------------------------------------------------------------------
 
 if has("autocmd")
@@ -503,7 +518,7 @@ endif
 " | Color Scheme                                                       |
 " ----------------------------------------------------------------------
 
-" set t_Co=256                   " Enable full-color support.
+set t_Co=256                   " Enable full-color support.
 
 set background=dark            " Use colors that look good
                                " on a dark background.
