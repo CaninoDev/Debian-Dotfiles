@@ -133,7 +133,7 @@ alias oldboy='ssh -XY ianga@oldboy.bittencock.com'
 /usr/games/fortune
 echo "\n"
 # alias config for dotfiles
-alias config='/usr/bin/git --git-dir=/home/caninodev/.dotfiles/ --work-tree=/home/caninodev'
+alias config='/usr/bin/git --git-dir=/home/caninodev/.dotfiles/'
 alias pi='ssh -XY pilittle.bittencock.com'
 
 export GOROOT=/home/caninodev/.local/share/go
