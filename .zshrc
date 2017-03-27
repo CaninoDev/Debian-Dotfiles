@@ -23,12 +23,10 @@ case "$TERM" in
 				fi
 	    ;;
     linux*)
-			export ZSH_TMUX_AUTOSTART=true
-      if [ -n "$FBTERM" ]; then
+   			export ZSH_TMUX_AUTOSTART=true
+			  export FBTERM=1
         export TERM=fbterm
-				# Source the color calibration for fbterm
-				source /usr/local/sbin/fbinit.zsh
-      fi
+			  source /usr/local/sbin/fbinit.zsh
       ;;
 esac
 # If you come from bash you might have to change your $PATH.
@@ -86,7 +84,7 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 # For oh-my-zsh Tmux plugin to start:
 
-plugins=(tmux battery git history colored-man ssh-agent colorize sublime history-substring-search compleat ubuntu yarn nice-exit-code elixir)
+plugins=(fbterm tmux battery git history colored-man ssh-agent colorize sublime history-substring-search compleat ubuntu yarn nice-exit-code elixir)
 
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
