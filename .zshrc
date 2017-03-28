@@ -138,3 +138,6 @@ alias sudo='sudo -H'
 # Alias for primary server
 alias oldboy='ssh -XY ianga@oldboy.bittencock.com'
 #export PATH=/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/home/caninodev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.local/share/go/bin
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+		source /etc/profile.d/vte.sh
+fi
