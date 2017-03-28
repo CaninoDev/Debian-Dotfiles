@@ -509,11 +509,12 @@ set background=dark            " Use colors that look good
 let g:airline_theme='ravenpower' " Set the airline theme
 syntax on                      " Enable syntax highlighting.
 colorscheme gruvbox
-"if has("termguicolors")
-  "set termguicolors
-  "colorscheme gruvbox
-  "let g:airline_theme='gruvbox'
-"endif
+
+if has("termguicolors")
+	set termguicolors
+	colorscheme gruvbox
+	let g:airline_theme='gruvbox'
+endif
 
 "if !has("gui_running")
 "    colorscheme solarized8_dark
@@ -523,9 +524,6 @@ colorscheme gruvbox
 " ----------------------------------------------------------------------
 " | Key Mappings                                                       |
 " ----------------------------------------------------------------------
-
-"nnoremap j gj                   " When erapping enabled, move between
-"nnoremap k gk                   " lines
 
 if has('user_commands')                                    " ┐
  command! -bang -complete=file -nargs=? E e<bang> <args>   " |
