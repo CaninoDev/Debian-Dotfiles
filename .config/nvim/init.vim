@@ -212,6 +212,8 @@ endfunction
 " where the plugins should be installed.
 "call plug#begin('~/.local/share/nvim/plugged')
 call plug#begin()
+" Plugin for vim-tmux integration (c-h => leftpane ...)
+Plug 'christoomey/vim-tmux-navigator'
 " Plugin for Haskell
 Plug 'eagletmt/ghcmod-vim'
 " 24b Colorschemes
