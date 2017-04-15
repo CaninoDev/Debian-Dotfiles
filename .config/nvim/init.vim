@@ -210,7 +210,10 @@ endfunction
 
 " Initialize Plugin and specify the path
 " where the plugins should be installed.
-call plug#begin('~/.local/share/nvim/plugged')
+"call plug#begin('~/.local/share/nvim/plugged')
+call plug#begin()
+" Plugin for Haskell
+Plug 'eagletmt/ghcmod-vim'
 " 24b Colorschemes
 Plug 'rakr/vim-one'
 " Status line
@@ -510,12 +513,17 @@ let g:airline_theme='ravenpower' " Set the airline theme
 syntax on                      " Enable syntax highlighting.
 colorscheme gruvbox
 
+" Neovim-qt Guifont command, to change the font
+command -nargs=? Guifont call rpcnotify(0, 'Gui', 'Setfont', "<args>")
+
 if has("termguicolors")
 	set termguicolors
-	colorscheme gruvbox
 	let g:airline_theme='gruvbox'
 endif
-
+" Sets the font if neovim-qt is ru:
+if !exists('g:GuiLoaded')
+	Guifont DejaVu Sans Mono:h15
+endif
 "if !has("gui_running")
 "    colorscheme solarized8_dark
 "endif
@@ -545,7 +553,7 @@ inoremap <C-U> <C-G>u<C-U>       " ^-U in inset mode deletes a lot, so use
 nmap <leader>* :%s/\<<C-r><C-w>\>//<Left>
 
 " [\cs] Clear search.
-map <leader>cs <Esc>:noh<CR>
+map <leader>xs <Esc>:noh<CR>
 
 " [\n ] Toggle NERDTree.
 map <leader>n :NERDTreeToggle<CR>
