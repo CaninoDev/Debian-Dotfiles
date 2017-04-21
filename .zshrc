@@ -2,7 +2,7 @@
 case "$TERM" in
     xterm*)
 				# I don't want tmux running in xwindows
-				export ZSH_TMUX_AUTOSTART=false
+				#export ZSH_TMUX_AUTOSTART=false
 				if [ -e /lib/terminfo/x/xterm-256color ]; then
 					export TERM=xterm-256color
 				elif [ -e /lib/terminfo/x/xterm-color ]; then
@@ -13,7 +13,7 @@ case "$TERM" in
 	    ;;
     screen*)
 				# Ditto as above
-				export ZSH_TMUX_AUTOSTART=false
+				#export ZSH_TMUX_AUTOSTART=false
 				if [ -e /lib/terminfo/s/screen-256color ]; then
 					export TERM=screen-256color;
 				elif [ -e /lib/terminfo/s/screen-256color-bce-s ]; then
@@ -23,12 +23,16 @@ case "$TERM" in
 				fi
 	    ;;
     linux*)
-   			export ZSH_TMUX_AUTOSTART=true
-			  export FBTERM=1
-        export TERM=fbterm
-			  source /usr/local/sbin/fbinit.zsh
+         #export ZSH_TMUX_AUTOSTART=true
       ;;
 esac
+#export ZSH_TMUX_AUTOSTART=true
+alias fbterm="env TERM=fbterm fbterm"
+# Set up in case tilix
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+		source /etc/profile.d/vte-2.91.sh
+fi
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.npm-global/bin:$PATH
 
@@ -60,7 +64,7 @@ HYPHEN_INSENSITIVE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="false"
+#ENABLE_CORRECTION="false"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -84,14 +88,9 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 # For oh-my-zsh Tmux plugin to start:
 
-plugins=(fbterm tmux battery git history colored-man ssh-agent colorize sublime history-substring-search compleat ubuntu yarn nice-exit-code elixir)
+plugins=(fbterm tmux battery git history colored-man ssh-agent colorize sublime history-substring-search compleat ubuntu debian)
 
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
-
-# Setup syntax highlighing
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-ZSH_HIGHLIGHT_HIGLIGHTERS=( main brackets cursor line root pattern )
-ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
 
 # User configuration
 
@@ -120,24 +119,23 @@ ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export NODE_PATH=/usr/lib/nodejs:/usr/lib/node_modules:/usr/share/javascript:lib:$HOME/.npm-global/node_modules
-
-#Set PATHS
-export PATH="$PATH:$HOME/.rvm/bin:$HOME/.npm-global/bin" # Add RVM and NPM to PATH for scripting
-export GOROOT=/home/caninodev/.local/share/go
-export SSH_KEY_PATH="$HOME/.ssh/id_rsa"
-#
-# Run fortune
-/usr/games/fortune
-echo "\n"
+###############################################
 # alias config for dotfiles
-alias config='/usr/bin/git --git-dir=/home/caninodev/.dotfiles/'
-alias pi='ssh -XY pilittle.bittencock.com'
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias raspiboy='ssh -XY pi@raspiboy.caninodevelopments.com -p 3141'
 # Alias sudo to use user directory for caching reference
 alias sudo='sudo -H'
 # Alias for primary server
 alias oldboy='ssh -XY ianga@oldboy.bittencock.com'
+#Set PATHS
+export PATH="$PATH:$HOME/.rvm/bin:$HOME/.npm-global/bin:/opt/Wire:/opt/Telegram"
+# Add RVM and NPM to PATH for scripting
+#
+# Run fortune
+/usr/games/fortune
+echo "\n"
 #export PATH=/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/home/caninodev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.local/share/go/bin
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-		source /etc/profile.d/vte.sh
-fi
+# Setup syntax highlighing
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_HIGHLIGHT_HIGLIGHTERS=( main brackets cursor line root pattern )
+ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
