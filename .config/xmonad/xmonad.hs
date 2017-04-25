@@ -5,7 +5,6 @@ import XMonad.Actions.Submap
 import XMonad.Actions.CycleWS (toggleWS)
 import XMonad.Actions.DynamicWorkspaces
 
-import XMonad.Layout.Circle
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.Circle
 import XMonad.Layout.Fullscreen
@@ -24,7 +23,9 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
-import XMonad.Util.Run(spawnPipe)
+
+import XMonad.Util.NamedWindows
+import XMonad.Util.Run
 import XMonad.Util.EZConfig
 import XMonad.Util.Scratchpad
 import qualified XMonad.StackSet as W
@@ -35,6 +36,15 @@ import Data.Function
 
 import System.IO
 
+------------------------------------------------------------------------
+-- Create a custom datatype for libnotify
+data LibNotifyUrgencyHook = LibNotifyUrgencyHook deriving (Read, Show)
+
+instance UrgencyHook LibNotifyUrgencyHook where
+		urgencyHook LibNotifyUrgencyHook w = do
+			name	<- getName w
+			Just idx	<- fmap (W.findTag w) $ gets windowset
+			safeSpawn "notify-send" [show name, "workspace " ++ idx]
 ------------------------------------------------------------------------
 -- Terminal
 -- The preferred terminal program, which is used in a binding below and by
@@ -63,6 +73,7 @@ myWorkspaces = ["1:Term","2:Web","3:Code","4:Spotify","6:Video","7:Chat","8:Art"
 myManageHook = composeAll [ className =? "Sublime-Text-3"           --> doShift "3:Code"
 													, className =? "Gimp"                     --> doShift "8:Art"
 													, className =? "Pavucontrol"              --> doFloat
+													, className =? "Slack"                    --> doFloat
 													, manageDocks
 													, scratchpadManageHook (W.RationalRect 0.125 0.25 0.75 0.5) ]
 
@@ -228,6 +239,8 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
  , ((modMask,                 xK_b        ), sendMessage ToggleStruts)
 -- Restart xmonad
  , ((modMask .|. shiftMask,   xK_r        ), broadcastMessage ReleaseResources >> restart "xmonad" True)
+-- Quit XMonad (Default)
+ , ((modMask .|. shiftMask,  xK_q     ), io (exitWith ExitSuccess))
  , ((modMask              ,   xK_g        ), workspacePrompt myXPConfig (windows . W.greedyView))
  , ((modMask .|. shiftMask,   xK_g        ), workspacePrompt myXPConfig (windows . W.shift))
 -- C-t submap
@@ -276,10 +289,8 @@ myMouseBindings XConfig{XMonad.modMask = modMask} = M.fromList
  ]
 {-myLogHook = dynamicLogWithPP $ defaultPP { ppOutput = PutStrLn, ppTitle = xmobarColor "green" "" . shorten 50 }-}
 
-main = do
-		xmproc <- spawnPipe "xmobar $HOME/.config/xmobar/xmobarrc"
-		xmonad defaults
-
+main :: IO ()
+main = xmonad defaults
 defaults = defaultConfig {
 												 terminal = myTerminal,
 												 borderWidth = myBorderWidth,
@@ -294,5 +305,5 @@ defaults = defaultConfig {
 												 {-logHook = logHook-}
 												 }
 												 `additionalKeysP` [
-															  ("<XF86MonBrightnessUp>", spawn "xbacklight +10")
-															 ,("<XF86MonBrightnessDown>", spawn "xbacklight -10")]
+																("<XF86MonBrightnessUp>", spawn "brightness-control up")
+															 ,("<XF86MonBrightnessDown>", spawn "brightness-control down")]
