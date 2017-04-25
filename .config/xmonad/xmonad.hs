@@ -57,6 +57,9 @@ myTerminal = "/usr/bin/terminix"
 --
 myWorkspaces = ["1:Term","2:Web","3:Code","4:Spotify","6:Video","7:Chat","8:Art","9:Misc"]
 ------------------------------------------------------------------------
+myStatusBar :: String
+myStatusBar = "xmobar"
+------------------------------------------------------------------------
 -- Window rules
 -- Execute arbitrary actions and WindowSet manipulations when managing
 -- a new window. You can use this to, for example, always float a
@@ -287,10 +290,35 @@ myMouseBindings XConfig{XMonad.modMask = modMask} = M.fromList
  , ((modMask, button2), \w -> focus w >> mouseResizeWindow w)
 -- you may also bind events to the mouse scroll wheel (button4 and button5)
  ]
-{-myLogHook = dynamicLogWithPP $ defaultPP { ppOutput = PutStrLn, ppTitle = xmobarColor "green" "" . shorten 50 }-}
+myLogHook :: Handle -> X()
+myLogHook h = dynamicLogWithPP $ defaultPP
+		{ ppCurrent		= xmobarColor "#2aa198" "#002b35" . pad
+	, ppVisible		= xmobarColor "#859900" "" . pad
+	, ppHidden		= xmobarColor "#fdf6e3" "" . pad
+	, ppUrgent		= xmobarColor "#dc322f" "" . pad
+	, ppWsSep			= ""
+	, ppSep				="|"
+	, ppLayout		= xmobarColor "#859900" "" .
+		 (\ x -> case x of
+		 "Maximize Tall"										-> "[]="
+		 "Maximize Mirror Tall"							-> "TTT"
+		 "Maximize Full"										-> "<M>"
+		 "Maximize Grid"										-> "+++"
+		 "Maximize Spiral"									-> "(@)"
+		 "Maximize Accordion"								-> "Acc"
+		 "Maximize Tabbed Simplest"					-> "Tab"
+		 "Maximize Tabbed Bottom Simplest"	-> "TaB"
+		 "Maximize SimplestFloat"						-> "><>"
+		 "Maximize IM"											-> "IM "
+		 "Maximize Dishes 2 (1%6)"					-> "Dsh"
+		 _																	-> pad x
+	 )
+	, ppOutput = hPutStrLn h
+	}
 
 main :: IO ()
 main = do
+		workspaceBarPipe <- spawnPipe myStatusBar
 		xmonad $ withUrgencyHook LibNotifyUrgencyHook defaultConfig {
 												 terminal = myTerminal,
 												 borderWidth = myBorderWidth,
@@ -300,9 +328,9 @@ main = do
 												 focusedBorderColor = myFocusedBorderColor,
 												 keys = myKeys,
 												 mouseBindings = myMouseBindings,
-												 layoutHook = myLayout,
-												 manageHook = myManageHook
-												 {-logHook = logHook-}
+												 manageHook = myManageHook,
+												 logHook = myLogHook workspaceBarPipe >> fadeInactiveLogHook 0xdddddddd,
+												 layoutHook = myLayout
 												 }
 												 `additionalKeysP` [
 																("<XF86MonBrightnessUp>", spawn "brightness-control up")
