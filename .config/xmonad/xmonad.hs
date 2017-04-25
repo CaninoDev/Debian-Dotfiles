@@ -77,6 +77,7 @@ myManageHook = composeAll [ className =? "Sublime-Text-3"           --> doShift 
 													, className =? "Gimp"                     --> doShift "8:Art"
 													, className =? "Pavucontrol"              --> doFloat
 													, className =? "Slack"                    --> doFloat
+													, className =? "xarchive"                 --> doFloat
 													, manageDocks
 													, scratchpadManageHook (W.RationalRect 0.125 0.25 0.75 0.5) ]
 
@@ -169,7 +170,7 @@ myBorderWidth = 2
 -- ("right alt"), which does not conflict with emacs keybindings. The
 -- "windows key" is usually mod4Mask.
 --
-myModMask = mod4Mask
+myModMask = mod3Mask
 
 myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 
@@ -177,10 +178,13 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 -- Custom key bindings
 --
 -- Start a terminal.  Terminal to start is specified by myTerminal variable.
-	[((modMask,                  xK_t       ), spawn "/usr/bin/terminix")
+	[((modMask,                  xK_t       ), spawn "terminix")
 
 --`r ck the screen using a screensaver
  , ((modMask .|. shiftMask,   xK_l        ), spawn "xscreensaver-command -lock")
+
+-- Launch launcher
+ , ((modMask,									xK_x        ), spawn "$HOME/.config/dmenu/dmenu.sh")
 
 -- Startup nvim-qt
  , ((modMask,                 xK_e        ), spawn "nvim-qt")
@@ -329,9 +333,12 @@ main = do
 												 keys = myKeys,
 												 mouseBindings = myMouseBindings,
 												 manageHook = myManageHook,
-												 logHook = myLogHook workspaceBarPipe >> fadeInactiveLogHook 0xdddddddd,
+												 logHook = myLogHook workspaceBarPipe,
 												 layoutHook = myLayout
 												 }
 												 `additionalKeysP` [
-																("<XF86MonBrightnessUp>", spawn "brightness-control up")
-															 ,("<XF86MonBrightnessDown>", spawn "brightness-control down")]
+												 ("<XF86MonBrightnessUp>", spawn "brightness-control up")
+															 , ("<XF86MonBrightnessDown>", spawn "brightness-control down")
+															 , ("<XF86AudioUp>", spawn "volume-control up")
+															 , ("<XF86AudioDown>", spawn "volume-control down")
+															 ]
