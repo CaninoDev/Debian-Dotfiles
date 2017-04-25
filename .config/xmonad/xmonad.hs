@@ -290,8 +290,8 @@ myMouseBindings XConfig{XMonad.modMask = modMask} = M.fromList
 {-myLogHook = dynamicLogWithPP $ defaultPP { ppOutput = PutStrLn, ppTitle = xmobarColor "green" "" . shorten 50 }-}
 
 main :: IO ()
-main = xmonad defaults
-defaults = defaultConfig {
+main = do
+		xmonad $ withUrgencyHook LibNotifyUrgencyHook defaultConfig {
 												 terminal = myTerminal,
 												 borderWidth = myBorderWidth,
 												 modMask = myModMask,
