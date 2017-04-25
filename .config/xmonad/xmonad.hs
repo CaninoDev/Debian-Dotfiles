@@ -1,4 +1,5 @@
 import XMonad
+import XMonad.Config
 import System.Exit
 
 import XMonad.Actions.Submap
@@ -23,11 +24,15 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
+import XMonad.Hooks.ManageHelpers
 
 import XMonad.Util.NamedWindows
 import XMonad.Util.Run
 import XMonad.Util.EZConfig
 import XMonad.Util.Scratchpad
+
+import Graphics.X11.ExtraTypes.XF86
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 
@@ -79,6 +84,7 @@ myManageHook = composeAll [ className =? "Sublime-Text-3"           --> doShift 
 													, className =? "Slack"                    --> doFloat
 													, className =? "xarchive"                 --> doFloat
 													, manageDocks
+													, className =? "stalonetray"							--> doIgnore
 													, scratchpadManageHook (W.RationalRect 0.125 0.25 0.75 0.5) ]
 
 ------------------------------------------------------------------------
@@ -101,27 +107,36 @@ myLauncher = "$(yeganesh -x -- -fn '-*-terminus-*-r-normal-*-*-120-*-*-*-*-iso88
 		{-||| Mirror (Tall 1 (3/100) (1/2))-}
 		{-||| Full) -}
 		{-||| noBorders (fullscreenFull Full)-}
-myLayout = avoidStruts $
-           tiled
-           ||| Mirror tiled
-           ||| Full
-           ||| tabbed shrinkText defaultTheme
-           ||| threeCol
-           ||| spiral (4/3)
-  where
-     -- default tiling algorithm partitions the screen into two panes
-     tiled   = Tall nmaster delta ratio
+myLayout = avoidStruts (
+		ThreeColMid 1 (3/100) (1/2) |||
+			Tall 1 (3/100) (1/2) |||
+			 Mirror (Tall 1 (3/100) (1/2)) |||
+				tabbed shrinkText tabConfig |||
+				Full |||
+				spiral (6/7)) |||
+				noBorders (fullscreenFull Full)
 
-     threeCol = ThreeCol nmaster delta ratio
+{-myLayout = avoidStruts $-}
+           {-tiled-}
+           {-||| Mirror tiled-}
+           {-||| Full-}
+           {-||| tabbed shrinkText defaultTheme-}
+           {-||| threeCol-}
+           {-||| spiral (4/3)-}
+  {-where-}
+     {--- default tiling algorithm partitions the screen into two panes-}
+     {-tiled   = Tall nmaster delta ratio-}
 
-     -- The default number of windows in the master pane
-     nmaster = 1
+     {-threeCol = ThreeCol nmaster delta ratio-}
 
-     -- Default proportion of screen occupied by master pane
-     ratio   = 1/2
+     {--- The default number of windows in the master pane-}
+     {-nmaster = 1-}
 
-     -- Percent of screen to increment by when resizing panes
-     delta   = 2/100
+     {--- Default proportion of screen occupied by master pane-}
+     {-ratio   = 1/2-}
+
+     {--- Percent of screen to increment by when resizing panes-}
+     {-delta   = 2/100-}
 ------------------------------------------------------------------------
 -- Colors and borders
 -- Currently based on the ir_black theme.
@@ -170,7 +185,7 @@ myBorderWidth = 2
 -- ("right alt"), which does not conflict with emacs keybindings. The
 -- "windows key" is usually mod4Mask.
 --
-myModMask = mod3Mask
+myModMask = mod4Mask
 
 myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 
@@ -183,6 +198,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 --`r ck the screen using a screensaver
  , ((modMask .|. shiftMask,   xK_l        ), spawn "xscreensaver-command -lock")
 
+ , ((modMask .|. shiftMask,    xK_t       ), spawn "terminix")
 -- Launch launcher
  , ((modMask,									xK_x        ), spawn "$HOME/.config/dmenu/dmenu.sh")
 
@@ -247,12 +263,12 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 -- Restart xmonad
  , ((modMask .|. shiftMask,   xK_r        ), broadcastMessage ReleaseResources >> restart "xmonad" True)
 -- Quit XMonad (Default)
- , ((modMask .|. shiftMask,  xK_q     ), io (exitWith ExitSuccess))
+ , ((modMask .|. shiftMask,  xK_q     ), io exitSuccess)
  , ((modMask              ,   xK_g        ), workspacePrompt myXPConfig (windows . W.greedyView))
  , ((modMask .|. shiftMask,   xK_g        ), workspacePrompt myXPConfig (windows . W.shift))
 -- C-t submap
-	 , ((controlMask,   xK_t),   submap . M.fromList $
-			[  ((controlMask, xK_t) ,   toggleWS)
+	 , ((controlMask,   xK_p),   submap . M.fromList $
+			[  ((controlMask, xK_p) ,   toggleWS)
 	     , ((0,            xK_Tab)    ,   windows W.focusDown) -- @@ Move focus to the next window
        , ((shiftMask,    xK_Tab )   ,   windows W.focusUp) -- @@ Move focus to the previous window
        , ((0,            xK_c)      ,   spawn $ XMonad.terminal conf)
@@ -294,35 +310,8 @@ myMouseBindings XConfig{XMonad.modMask = modMask} = M.fromList
  , ((modMask, button2), \w -> focus w >> mouseResizeWindow w)
 -- you may also bind events to the mouse scroll wheel (button4 and button5)
  ]
-myLogHook :: Handle -> X()
-myLogHook h = dynamicLogWithPP $ defaultPP
-		{ ppCurrent		= xmobarColor "#2aa198" "#002b35" . pad
-	, ppVisible		= xmobarColor "#859900" "" . pad
-	, ppHidden		= xmobarColor "#fdf6e3" "" . pad
-	, ppUrgent		= xmobarColor "#dc322f" "" . pad
-	, ppWsSep			= ""
-	, ppSep				="|"
-	, ppLayout		= xmobarColor "#859900" "" .
-		 (\ x -> case x of
-		 "Maximize Tall"										-> "[]="
-		 "Maximize Mirror Tall"							-> "TTT"
-		 "Maximize Full"										-> "<M>"
-		 "Maximize Grid"										-> "+++"
-		 "Maximize Spiral"									-> "(@)"
-		 "Maximize Accordion"								-> "Acc"
-		 "Maximize Tabbed Simplest"					-> "Tab"
-		 "Maximize Tabbed Bottom Simplest"	-> "TaB"
-		 "Maximize SimplestFloat"						-> "><>"
-		 "Maximize IM"											-> "IM "
-		 "Maximize Dishes 2 (1%6)"					-> "Dsh"
-		 _																	-> pad x
-	 )
-	, ppOutput = hPutStrLn h
-	}
-
-main :: IO ()
 main = do
-		workspaceBarPipe <- spawnPipe myStatusBar
+		xmproc <- spawnPipe "xmobar"
 		xmonad $ withUrgencyHook LibNotifyUrgencyHook defaultConfig {
 												 terminal = myTerminal,
 												 borderWidth = myBorderWidth,
@@ -332,13 +321,37 @@ main = do
 												 focusedBorderColor = myFocusedBorderColor,
 												 keys = myKeys,
 												 mouseBindings = myMouseBindings,
-												 manageHook = myManageHook,
-												 logHook = myLogHook workspaceBarPipe,
-												 layoutHook = myLayout
+												 manageHook = manageDocks <+> myManageHook,
+												 layoutHook = myLayout,
+												 logHook = dynamicLogWithPP xmobarPP {
+																ppOutput		= hPutStrLn xmproc
+															, ppCurrent		= xmobarColor "#2aa198" "#002b35" . pad
+															, ppVisible		= xmobarColor "#859900" "" . pad
+															, ppHidden		= xmobarColor "#fdf6e3" "" . pad
+															, ppUrgent		= xmobarColor "#dc322f" "" . pad
+															, ppWsSep			= ""
+															, ppSep				="|"
+															, ppLayout		= xmobarColor "#859900" "" .
+																 (\ x -> case x of
+																 "Maximize Tall"										-> "[]="
+																 "Maximize Mirror Tall"							-> "TTT"
+																 "Maximize Full"										-> "<M>"
+																 "Maximize Grid"										-> "+++"
+																 "Maximize Spiral"									-> "(@)"
+																 "Maximize Accordion"								-> "Acc"
+																 "Maximize Tabbed Simplest"					-> "Tab"
+																 "Maximize Tabbed Bottom Simplest"	-> "TaB"
+																 "Maximize SimplestFloat"						-> "><>"
+																 "Maximize IM"											-> "IM "
+																 "Maximize Dishes 2 (1%6)"					-> "Dsh"
+																 _																	-> pad x
+															 )
+															}
 												 }
 												 `additionalKeysP` [
 												 ("<XF86MonBrightnessUp>", spawn "brightness-control up")
 															 , ("<XF86MonBrightnessDown>", spawn "brightness-control down")
-															 , ("<XF86AudioUp>", spawn "volume-control up")
-															 , ("<XF86AudioDown>", spawn "volume-control down")
+															 , ("<XF86AudioRaiseVolume>", spawn "volume-control up")
+															 , ("<XF86AudioLowerVolume>", spawn "volume-control down")
+															 , ("<XF86AudioMute", spawn "volume-control toggle")
 															 ]
