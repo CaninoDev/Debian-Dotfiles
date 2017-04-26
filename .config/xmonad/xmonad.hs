@@ -5,6 +5,7 @@ import System.Exit
 import XMonad.Actions.Submap
 import XMonad.Actions.CycleWS (toggleWS)
 import XMonad.Actions.DynamicWorkspaces
+import XMonad.Actions.GridSelect
 
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.Circle
@@ -227,7 +228,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
  , ((modMask,                 xK_n        ), refresh)
 
 -- Move focus to the next window
- , ((modMask,                 xK_Tab      ), windows W.focusDown)
+ , ((modMask,                 xK_Tab      ), goToSelected defaultGSConfig)
 
 -- Move focus to the next window
  , ((modMask,                 xK_j        ), windows W.focusDown)
