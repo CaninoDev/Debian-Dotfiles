@@ -41,7 +41,7 @@ import Data.Function
 
 import System.IO
 
-------------------------------------------------------------------------
+-----------------------------------------------------------------------
 -- Create a custom datatype for libnotify
 data LibNotifyUrgencyHook = LibNotifyUrgencyHook deriving (Read, Show)
 
@@ -84,7 +84,7 @@ myManageHook = composeAll [ className =? "Sublime-Text-3"           --> doShift 
 													, className =? "Slack"                    --> doFloat
 													, className =? "xarchive"                 --> doFloat
 													, manageDocks
-													, className =? "stalonetray"							--> doIgnore
+													, resource =? "stalonetray"							--> doIgnore
 													, scratchpadManageHook (W.RationalRect 0.125 0.25 0.75 0.5) ]
 
 ------------------------------------------------------------------------
@@ -165,7 +165,7 @@ tabConfig = defaultTheme {
 		, inactiveBorderColor = "#7C7C7C"
 		, inactiveTextColor = "#EEEEEE"
 		, inactiveColor = "#000000"
-		, fontName = "xft:DejaVu Sans Mono:size=14:bold:antialias=true",
+		, fontName = "xft:DejaVu Sans Mono:size=12:bold:antialias=true",
     decoHeight = 36
 }
 
