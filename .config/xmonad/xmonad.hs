@@ -25,6 +25,7 @@ import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.EwmhDesktops
 
 import XMonad.Util.NamedWindows
 import XMonad.Util.Run
@@ -83,6 +84,8 @@ myManageHook = composeAll [ className =? "Sublime-Text-3"           --> doShift 
 													, className =? "Pavucontrol"              --> doFloat
 													, className =? "Slack"                    --> doFloat
 													, className =? "xarchive"                 --> doFloat
+													, (stringProperty "WM_WINDOW_ROLE" =? "GtkFileChooserDialog") --> doFloat
+	, (className =? "Nautilus" <&&> appName =? "file_properties") --> doFloat
 													, manageDocks
 													, resource =? "stalonetray"							--> doIgnore
 													, scratchpadManageHook (W.RationalRect 0.125 0.25 0.75 0.5) ]
@@ -263,7 +266,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 -- Restart xmonad
  , ((modMask .|. shiftMask,   xK_r        ), broadcastMessage ReleaseResources >> restart "xmonad" True)
 -- Quit XMonad (Default)
- , ((modMask .|. shiftMask,  xK_q     ), io exitSuccess)
+							 , ((modMask .|. shiftMask,  xK_q         ), spawn "xfce4-session-logout")
  , ((modMask              ,   xK_g        ), workspacePrompt myXPConfig (windows . W.greedyView))
  , ((modMask .|. shiftMask,   xK_g        ), workspacePrompt myXPConfig (windows . W.shift))
 -- C-t submap
@@ -322,6 +325,8 @@ main = do
 												 keys = myKeys,
 												 mouseBindings = myMouseBindings,
 												 manageHook = manageDocks <+> myManageHook,
+												 handleEventHook = ewmhDesktopsEventHook,
+												 startupHook = ewmhDesktopsStartup,
 												 layoutHook = myLayout,
 												 logHook = dynamicLogWithPP xmobarPP {
 																ppOutput		= hPutStrLn xmproc
