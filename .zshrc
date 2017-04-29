@@ -2,7 +2,7 @@
 case "$TERM" in
     xterm*)
 				# I don't want tmux running in xwindows
-				#export ZSH_TMUX_AUTOSTART=false
+				export ZSH_TMUX_AUTOSTART=false
 				if [ -e /lib/terminfo/x/xterm-256color ]; then
 					export TERM=xterm-256color
 				elif [ -e /lib/terminfo/x/xterm-color ]; then
@@ -13,7 +13,7 @@ case "$TERM" in
 	    ;;
     screen*)
 				# Ditto as above
-				#export ZSH_TMUX_AUTOSTART=false
+				export ZSH_TMUX_AUTOSTART=true
 				if [ -e /lib/terminfo/s/screen-256color ]; then
 					export TERM=screen-256color;
 				elif [ -e /lib/terminfo/s/screen-256color-bce-s ]; then
@@ -23,7 +23,9 @@ case "$TERM" in
 				fi
 	    ;;
     linux*)
-         #export ZSH_TMUX_AUTOSTART=true
+         export ZSH_TMUX_AUTOSTART=true
+				 export TERM=fbterm
+				 export FBTERM=1
       ;;
 esac
 #export ZSH_TMUX_AUTOSTART=true
@@ -127,8 +129,9 @@ alias raspiboy='ssh -XY pi@raspiboy.caninodevelopments.com -p 3141'
 alias sudo='sudo -H'
 # Alias for primary server
 alias oldboy='ssh -XY ianga@oldboy.bittencock.com'
+export GOPATH='/home/caninodev/src/gocodes'
 #Set PATHS
-export PATH="$PATH:$HOME/.rvm/bin:$HOME/.npm-global/bin:/opt/Wire:/opt/Telegram"
+export PATH="$PATH:$HOME/.rvm/bin:$HOME/.npm-global/bin:/opt/Wire:/opt/Telegram:/usr/lib/go-1.8/bin:$GOPATH/bin"
 # Add RVM and NPM to PATH for scripting
 #
 # Run fortune
@@ -139,3 +142,5 @@ echo "\n"
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGLIGHTERS=( main brackets cursor line root pattern )
 ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
+alias syslog='sudo tail -n 20 /var/log/syslog'
+alias spotify='spotify --force-device-scale-factor=1.4'
