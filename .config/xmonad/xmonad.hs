@@ -170,7 +170,8 @@ myManageHook = composeAll [ matchAny v --> a | (v,a) <- myActions]
             , ("Pavucontrol"                    , doFloat)
             , ("Slack"                          , doFloat)
             , ("xarchive"                       , doFloat)
-            , ("GtkFileChooserDialog"           , doFloat)
+            , ("xGtkFileChooserDialog"          , doFloat)
+						, ("telegram-desktop"               , doFloat)
             , ("file_properties"                , doFloat)
             ]
 -- Helpers --
