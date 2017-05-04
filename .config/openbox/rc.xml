@@ -40,7 +40,7 @@
                     'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>Natura</name>
+    <name>Numix</name>
     <titleLayout>NDLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -522,8 +522,10 @@
       <!-- action name="UnmaximizeFull"/ -->
       <!-- action name="MaximizeHoriz"/ -->
       <action name="MoveResizeTo">
-      	<x>-0</x>
-      	<y>-0</y>
+      	<height>50%</height>
+      	<width>50%</width>
+        <x>-0</x>
+        <y>-0</y>
       </action>
     </keybind>
     <keybind key="A-r">
@@ -532,16 +534,16 @@
     <keybind key="A-m">
       <action name="Move"/>
     </keybind>
-		 <keybind key="XF86MonBrightnessUp">
-			 <action name="Execute">
-				 <command>xbacklight +10</command>
-			 </action>
-		 </keybind>
-				 <keybind key="XF86MonBrightnessDown">
-					 <action name="Execute">
-				 <command>xbacklight -10</command>
-	 </action>
-</keybind>
+    <keybind key="XF86MonBrightnessUp">
+      <action name="Execute">
+        <command>xbacklight +10</command>
+      </action>
+    </keybind>
+    <keybind key="XF86MonBrightnessDown">
+      <action name="Execute">
+        <command>xbacklight -10</command>
+      </action>
+    </keybind>
   </keyboard>
   <mouse>
     <dragThreshold>8</dragThreshold>
@@ -924,7 +926,7 @@
        menu is hidden again -->
     <middle>no</middle>
     <!-- center submenus vertically about the parent entry -->
-    <submenuShowDelay>100</submenuShowDelay>
+    <submenuShowDelay1>00</submenuShowDelay>
     <!-- time to delay before showing a submenu after hovering over the parent
        entry.
        if this is a negative value, then the delay is infinite and the
