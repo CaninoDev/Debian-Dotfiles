@@ -212,10 +212,16 @@ endfunction
 " where the plugins should be installed.
 "call plug#begin('~/.local/share/nvim/plugged')
 call plug#begin()
+" Dracula theme
+Plug 'dracula/vim'
 " Plugin for vim-tmux integration (c-h => leftpane ...)
 Plug 'christoomey/vim-tmux-navigator'
 " Plugin for Haskell
 Plug 'eagletmt/ghcmod-vim'
+" Plugin for Haskell Scripts
+"Plug 'neovimhaskell/haskell-vim'
+" Plugin for haskell intending
+"Plug 'itchyny/vim-haskell-indent'
 " 24b Colorschemes
 Plug 'rakr/vim-one'
 " Status line
@@ -305,10 +311,20 @@ endif
 set autoindent                 " Copy indent to the new line.
 
 
-" Restore curent cursor when opening file.
+" Restore current cursor when opening file.
 if has("autocmd")
 	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") |     exe "normal! g'\"" | endif
 endif
+" ----------------------------------------------------------------------
+" | Plugin - haskell-vim                                               |
+" ----------------------------------------------------------------------
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 " ----------------------------------------------------------------------
 " | Plugins - Airline                                                  |
 " ----------------------------------------------------------------------
@@ -506,31 +522,31 @@ endif
 " ----------------------------------------------------------------------
 " | Color Scheme                                                       |
 " ----------------------------------------------------------------------
-
-set t_Co=256                   " Enable full-color support.
-
-set background=dark            " Use colors that look good
-                               " on a dark background.
-let g:airline_theme='ravenpower' " Set the airline theme
-syntax on                      " Enable syntax highlighting.
-colorscheme gruvbox
-
 " Neovim-qt Guifont command, to change the font
-command -nargs=? Guifont call rpcnotify(0, 'Gui', 'Setfont', "<args>")
-
-if has("termguicolors")
-	set termguicolors
-	let g:airline_theme='gruvbox'
-endif
 " Sets the font if neovim-qt is ru:
+command -nargs=? Guifont call rpcnotify(0, 'Gui', 'Setfont', "<args>")
 if !exists('g:GuiLoaded')
-	Guifont DejaVu Sans Mono:h15
+	Guifont SFNS Display Nerd Font Complete:h15
 endif
 "if !has("gui_running")
 "    colorscheme solarized8_dark
 "endif
+if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+if (has("termguicolors"))
+		set termguicolors
+endif
+if !has ("gui_running")
+		colorscheme one
+endif
 
-
+set background=dark
+let g:airline_theme='one'
 " ----------------------------------------------------------------------
 " | Key Mappings                                                       |
 " ----------------------------------------------------------------------
