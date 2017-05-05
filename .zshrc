@@ -144,3 +144,7 @@ ZSH_HIGHLIGHT_HIGLIGHTERS=( main brackets cursor line root pattern )
 ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
 alias syslog='sudo tail -n 20 /var/log/syslog'
 alias spotify='spotify --force-device-scale-factor=1.4'
+if [[ $TILIX_ID ]]; then
+        source /etc/profile.d/vte.sh
+fi
+alias svim='sudo nvim'
