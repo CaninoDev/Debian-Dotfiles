@@ -204,7 +204,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
                  , ((modMask .|. shiftMask,   xK_l        ), spawn "xscreensaver-command -lock")
 
                         -- Launch launcher
-                 , ((modMask,                 xK_x        ), spawn "$HOME/.config/dmenu/dmenu.sh")
+                 , ((modMask,                 xK_x        ), spawn "$HOME/.config/dmenu/dmenu-bind.sh")
 
                         -- Startup sublime for xmonad configuration
                  , ((modMask,                 xK_e        ), spawn "subl $HOME/.config/xmonad/xmonad.hs")
