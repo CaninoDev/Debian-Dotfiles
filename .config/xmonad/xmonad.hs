@@ -2,6 +2,7 @@ import qualified Data.Map as M
 
 import qualified XMonad.StackSet as W
 import Control.Exception
+import Control.Monad
 import System.Exit
 
 import XMonad
@@ -22,7 +23,15 @@ import XMonad.Layout.Reflect
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Tabbed
 import XMonad.Layout.TwoPane
+
+import XMonad.Util.Run
+
 import System.IO
+
+
+promptExit = do
+      response <- runProcessWithInput "dmenu" ["-p", "Really quit?"] "yes\nno\n"
+      when (response == "yes") (io (exitWith ExitSuccess))
 
 conf = ewmh xfceConfig
   { terminal = myTerminal,
@@ -197,8 +206,8 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
                         -- Launch launcher
                  , ((modMask,                 xK_x        ), spawn "$HOME/.config/dmenu/dmenu.sh")
 
-                        -- Startup nvim-qt
-                 , ((modMask,                 xK_e        ), spawn "nvim-qt")
+                        -- Startup sublime for xmonad configuration
+                 , ((modMask,                 xK_e        ), spawn "subl $HOME/.config/xmonad/xmonad.hs")
 
                         -- Take a snapshot by selecting a region
                  , ((modMask .|. controlMask, xK_5        ), spawn "scrot -s")
@@ -265,7 +274,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
                 -- Restart xmonad
                  , ((modMask .|. shiftMask,   xK_r        ), broadcastMessage ReleaseResources >> restart "xmonad" True)
                 -- Quit XMonad (Default)
-                 , ((modMask .|. shiftMask,  xK_q         ), spawn "xfce4-session-logout")
+								 , ((modMask .|. shiftMask,   xK_q        ), promptExit)
                  ]
                  ++
             -- mod-[1..9], Switch to workspace N
