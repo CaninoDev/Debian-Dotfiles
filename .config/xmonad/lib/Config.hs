@@ -65,7 +65,7 @@ myIM = withIM (1 % 4) (ClassName "wire")
 -- Workspaces
 --
 
-myWorkspaces = ["main","text","ide","web","mail","chat","media","read","gimp"]
+-- myWorkspaces = ["main","text","ide","web","mail","chat","media","read","gimp"]
 
 -- Layouts
 myLayouts = renamed [CutWordsLeft 1] .
@@ -100,15 +100,15 @@ switchWorkspaceToWindow w = windows $ do
 --
 -- Match a string against anyone of a window's class, title, name, or role
 matchAny :: String -> Query Bool
-matchAny x = foldr ((<||>) . (=? x)) (return False) [className, title, cName, role]
+matchAny x = foldr ((<||>) . (=? x)) (return False) [className, title, cName, cRole]
 
 -- Match against @WM_NAME@.
 cName :: Query String
 cName = stringProperty "WM_CLASS"
 -- Match against @WM_WINDOW_ROLE@.
 
-role :: Query String
-role = stringProperty "WM_WINDOW_ROLE"
+cRole :: Query String
+cRole = stringProperty "WM_WINDOW_ROLE"
 
 {-|
 # Script to easily find WM_CLASS for adding applications to the list
@@ -210,6 +210,14 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 
       -- Launch audio controls
   , ((modMask,                 xK_a        ), spawn "pavucontrol")
+      -- Kill program
+  , ((modMask .|. shiftMask,   xK_c        ), kill)
+  
+  -- Layout
+  -- Change Layout
+  , ((modMask,                 xK_space    ), sendMessage NextLayout)
+  -- Change layout to the default layout of the current workspace
+  , ((modMask .|. shiftMask,   xK_space    ), setLayout $ XMonad.layoutHook conf)
   -- Swapping
   -- Swap the focused window and the master window
   , ((modMask .|. shiftMask,   xK_m        ), windows W.swapMaster)
@@ -229,28 +237,18 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 
   -- toggle the status bar gap
   , ((modMask,                 xK_b        ), sendMessage ToggleStruts)
+  
   -- 2D navigation
-  , ((modMask .|. shiftMask, xK_l), screenGo R True)
-  , ((modMask .|. shiftMask, xK_h), screenGo L True)
-  , ((modMask .|. controlMask, xK_l), screenSwap R True)
-  , ((modMask .|. controlMask, xK_h), screenSwap L True)
-
-  -- Float handling (snapping to edges)
-  , ((modMask, xK_Right), withFocused $ snapMove R Nothing)
-  , ((modMask, xK_Left), withFocused $ snapMove L Nothing)
-  , ((modMask, xK_Up), withFocused $ snapMove U Nothing)
-  , ((modMask, xK_Down), withFocused $ snapMove D Nothing)
-
-  , ((modMask .|. shiftMask, xK_Right), withFocused $ keysResizeWindow (20, 0) (0, 0))
-  , ((modMask .|. shiftMask, xK_Left), withFocused $ keysResizeWindow (-20, 0) (0, 0))
-  , ((modMask .|. shiftMask, xK_Up), withFocused $ keysResizeWindow (0, -20) (0, 0))
-  , ((modMask .|. shiftMask, xK_Down), withFocused $ keysResizeWindow (0, 20) (0, 0))
+  , ((modMask .|. shiftMask,   xK_l        ), screenGo R True)
+  , ((modMask .|. shiftMask,   xK_h        ), screenGo L True)
+  , ((modMask .|. controlMask, xK_l        ), screenSwap R True)
+  , ((modMask .|. controlMask, xK_h        ), screenSwap L True)
 
     -- Minimize stuff
   , ((modMask, xK_v), withFocused minimizeWindow)
-  , ((modMask .|. shiftMask, xK_v), sendMessage RestoreNextMinimizedWin)
+  , ((modMask .|. shiftMask,   xK_v        ), sendMessage RestoreNextMinimizedWin)
 
-  , ((modMask, xK_g), placeFocused $ smart (0.5, 0.5))
+  , ((modMask,                 xK_g        ), placeFocused $ smart (0.5, 0.5))
 
   -- Inc or Dec # of windows in master area
   -- Increment the number of windows in the master area
@@ -340,7 +338,6 @@ myConfig = def
   { terminal = "terminix"
   , borderWidth = myBorderWidth
   , modMask = mod4Mask
-  , workspaces = myWorkspaces
   , normalBorderColor = myNormalBorderColor
   , focusedBorderColor = myFocusedBorderColor
   , keys = myKeys
