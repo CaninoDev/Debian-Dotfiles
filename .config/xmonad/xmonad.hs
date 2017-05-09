@@ -1,17 +1,14 @@
 import qualified Data.Map as M
 
 import qualified XMonad.StackSet as W
-import Control.Exception
-import Control.Monad
+
 import System.Exit
 
 import XMonad
-import XMonad.Actions.CycleWS
-import XMonad.Actions.UpdatePointer
+
 import XMonad.Config.Xfce
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
-import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
@@ -25,13 +22,14 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.TwoPane
 
 import XMonad.Util.Run
+import Control.Monad
 
 import System.IO
 
+promptExit = do 
+	response <- runProcessWithInput "dmenu" ["-p", "Quit"] "yes\nno\n"
+	when (response == "yes\n") (io $ exitWith exitSuccess)
 
-promptExit = do
-      response <- runProcessWithInput "dmenu" ["-p", "Really quit?"] "yes\nno\n"
-      when (response == "yes") (io (exitWith ExitSuccess))
 
 conf = ewmh xfceConfig
   { terminal = myTerminal,
@@ -83,12 +81,12 @@ myLayoutHook = avoidStruts $ tile ||| rtile ||| full ||| mtile ||| gimp
                 -- two tab panes beside eachother, move windows with swapwindow
                 tabB        = noBorders               $ tabbed shrinkText myTabTheme
                 tabtile     = named "TT"              $ combineTwoP (TwoPane 0.03 0.5)
-                                                                  (tabB)
-                                                                  (tabB)
+                                                                  tabB
+                                                                  tabB
                                                                   (ClassName "firefox")
                 -- two layouts for gimp, tabs and tiling
                 gimp        = named "gimp"            $ combineTwoP (TwoPane 0.03 0.5)
-                                                                    (tabB) (reflectHoriz
+                                                                    tabB (reflectHoriz
                                                                             $ combineTwoP (TwoPane 0.03 0.2)
                                                                               tabB        (tabB ||| Grid)
                                                                                           (Role "gimp-dock")
@@ -100,14 +98,14 @@ myLayoutHook = avoidStruts $ tile ||| rtile ||| full ||| mtile ||| gimp
 --
 -- Match a string against anyone of a window's class, title, name, or role
 matchAny :: String -> Query Bool
-matchAny x = foldr ((<||>) . (=? x)) (return False) [className, title, name, role]
+matchAny x = foldr ((<||>) . (=? x)) (return False) [className, title, name, cRole]
 
 -- Match against @WM_NAME@.
 name :: Query String
 name = stringProperty "WM_CLASS"
 -- Match against @WM_WINDOW_ROLE@.
-role :: Query String
-role = stringProperty "WM_WINDOW_ROLE"
+cRole :: Query String
+cRole = stringProperty "WM_WINDOW_ROLE"
 
 -- ManageHook --
 pbManageHook :: ManageHook
@@ -139,9 +137,9 @@ myManageHook = composeAll [ matchAny v --> a | (v,a) <- myActions]
             , ("Oracle VM VirtualBox Manager"   , doShift "8")
             , ("VirtualBox"                     , doShift "8")
             , ("animation-SpriteTestWindow"     , doFloat)
-            , ("gimp-image-window"              , (ask >>= doF . W.sink))
-            , ("gimp-toolbox"                   , (ask >>= doF . W.sink))
-            , ("gimp-dock"                      , (ask >>= doF . W.sink))
+            , ("gimp-image-window"              , ask >>= doF . W.sink)
+            , ("gimp-toolbox"                   , ask >>= doF . W.sink)
+            , ("gimp-dock"                      , ask >>= doF . W.sink)
             , ("gimp-image-new"                 , doFloat)
             , ("gimp-toolbox-color-dialog"      , doFloat)
             , ("gimp-layer-new"                 , doFloat)
@@ -188,7 +186,7 @@ myManageHook = composeAll [ matchAny v --> a | (v,a) <- myActions]
 avoidMaster :: W.StackSet i l a s sd -> W.StackSet i l a s sd
 avoidMaster = W.modify' $ \c -> case c of
     W.Stack t [] (r:rs) -> W.Stack t [r] rs
-    otherwise           -> c
+    _                        -> c
 
 -- Keyboard
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
@@ -274,8 +272,8 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
                 -- Restart xmonad
                  , ((modMask .|. shiftMask,   xK_r        ), broadcastMessage ReleaseResources >> restart "xmonad" True)
                 -- Quit XMonad (Default)
-								 , ((modMask .|. shiftMask,   xK_q        ), promptExit)
-                 ]
+				 , ((modMask .|. shiftMask,   xK_q        ), promptExit)
+				 ]
                  ++
             -- mod-[1..9], Switch to workspace N
             -- mod-shift-[1..9], Move client to workspace N
