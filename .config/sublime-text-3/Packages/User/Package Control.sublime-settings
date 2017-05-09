@@ -15,13 +15,17 @@
 		"ElixirSublime",
 		"GitGutter",
 		"GitSavvy",
+		"Highlight Build Errors",
 		"Markdown Preview",
 		"Package Control",
 		"Package Syncing",
 		"SublimeHaskell",
+		"SublimeLinter",
 		"SublimeLinter-contrib-elixirc",
+		"SublimeLinter-ghc",
 		"SublimeREPL",
 		"SyntaxHighlightTools",
+		"Theme - Darkmatter",
 		"Theme - Phoenix",
 		"Themr"
 	]
