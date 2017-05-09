@@ -26,7 +26,7 @@ import Control.Monad
 
 import System.IO
 
-promptExit = do 
+promptExit = do
 	response <- runProcessWithInput "dmenu" ["-p", "Quit"] "yes\nno\n"
 	when (response == "yes\n") (io $ exitWith exitSuccess)
 
