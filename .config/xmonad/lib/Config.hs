@@ -24,6 +24,8 @@ import XMonad.Layout.Minimize
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Renamed
 import XMonad.Layout.Tabbed
+import XMonad.Layout.Spacing (smartSpacing)
+
 import XMonad.Layout.PerWorkspace (onWorkspace, onWorkspaces)
 import qualified XMonad.Layout.BoringWindows as B
 
@@ -345,5 +347,5 @@ myConfig = def
     <+> pbManageHook
     <+> myManageHook
   , handleEventHook = docksEventHook <+> minimizeEventHook <+> fullscreenEventHook
-  , layoutHook = myLayouts
+  , layoutHook = smartSpacing 10 $ myLayouts
   }
