@@ -28,7 +28,7 @@ import System.IO
 
 promptExit = do
 	response <- runProcessWithInput "dmenu" ["-p", "Quit"] "yes\nno\n"
-	when (response == "yes\n") (io $ exitWith exitSuccess)
+	when (response == "yes\n") (io $ exitWith ExitSuccess)
 
 
 conf = ewmh xfceConfig
