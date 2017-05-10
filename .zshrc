@@ -131,7 +131,7 @@ alias sudo='sudo -H'
 alias oldboy='ssh -XY ianga@oldboy.bittencock.com'
 export GOPATH='/home/caninodev/src/gocodes'
 #Set PATHS
-export PATH="$PATH:$HOME/.rvm/bin:$HOME/.npm-global/bin:/opt/Wire:/opt/Telegram:/usr/lib/go-1.8/bin:$GOPATH/bin"
+export PATH="$PATH:$HOME/.rvm/bin:$HOME/.npm-global/bin:/opt/Wire:/opt/Telegram:/usr/lib/go-1.8/bin:$GOPATH/bin:$HOME/.cabal/bin"
 # Add RVM and NPM to PATH for scripting
 #
 # Run fortune
