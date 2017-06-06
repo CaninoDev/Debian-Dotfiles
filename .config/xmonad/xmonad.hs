@@ -271,6 +271,8 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
   , ((0, 0x1008ff02                        ), spawn "xbacklight +5%")
   -- Decrease Screen brightness
   , ((0, 0x1008ff03                        ), spawn "xbacklight -5%")
+  -- Run xmessage with a summary of the default keybindings (useful for beginners)`
+  --  , ((modMask .|. shiftMask, 	  xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
  ]
   ++
 
@@ -279,6 +281,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
   [((m .|. modMask, k), windows $ f i)
       | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
       , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+
 
 ------------------------------------------------------------------------
 -- Mouse bindings

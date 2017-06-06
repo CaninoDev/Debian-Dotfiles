@@ -14,7 +14,6 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.Minimize
 import XMonad.Hooks.Place
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP)
 
 import XMonad.Layout.IM
 import XMonad.Layout.LayoutModifier (ModifiedLayout(..))
@@ -41,6 +40,9 @@ import qualified DBus as D
 import qualified DBus.Client as D
 
 import qualified Codec.Binary.UTF8.String as UTF8
+
+-- Terminal
+myTerminal = "/usr/bin/gnome-terminal"
 
 -- solarized colors
 bg     = "#002b36"
@@ -190,7 +192,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
   -- --------------------------
   -- Launching and Kill Programs
   -- Start a terminal.  Terminal to start is specified by myTerminal variable.
-  [((modMask,                  xK_Return   ), spawn "terminix")
+  [((modMask,                  xK_Return   ), spawn $ XMonad.terminal conf)
 
       -- Lock the screen using a screensaver
   , ((modMask .|. shiftMask,   xK_l        ), spawn "xscreensaver-command -lock")
@@ -214,7 +216,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
   , ((modMask,                 xK_a        ), spawn "pavucontrol")
       -- Kill program
   , ((modMask .|. shiftMask,   xK_c        ), kill)
-  
+
   -- Layout
   -- Change Layout
   , ((modMask,                 xK_space    ), sendMessage NextLayout)
@@ -239,7 +241,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 
   -- toggle the status bar gap
   , ((modMask,                 xK_b        ), sendMessage ToggleStruts)
-  
+
   -- 2D navigation
   , ((modMask .|. shiftMask,   xK_l        ), screenGo R True)
   , ((modMask .|. shiftMask,   xK_h        ), screenGo L True)
@@ -275,19 +277,19 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
 
-myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
+myMouseBindings XConfig {XMonad.modMask = modMask} = M.fromList $
   [
     -- mod-button1, Set the window to floating mode and move by dragging
     ((modMask, button1),
-     (\w -> focus w >> mouseMoveWindow w))
+     \w -> focus w >> mouseMoveWindow w)
 
     -- mod-button2, Raise the window to the top of the stack
     , ((modMask, button2),
-       (\w -> focus w >> windows W.swapMaster))
+       \w -> focus w >> windows W.swapMaster)
 
     -- mod-button3, Set the window to floating mode and resize by dragging
     , ((modMask, button3),
-       (\w -> focus w >> mouseResizeWindow w))
+       \w -> focus w >> mouseResizeWindow w)
 
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
   ]
@@ -337,7 +339,7 @@ pbManageHook = composeAll $ concat
     ]
 
 myConfig = def
-  { terminal = "terminix"
+  { terminal = "gnome-terminal"
   , borderWidth = myBorderWidth
   , modMask = mod4Mask
   , normalBorderColor = myNormalBorderColor
@@ -347,5 +349,5 @@ myConfig = def
     <+> pbManageHook
     <+> myManageHook
   , handleEventHook = docksEventHook <+> minimizeEventHook <+> fullscreenEventHook
-  , layoutHook = smartSpacing 10 $ myLayouts
+  , layoutHook = smartSpacing 10 myLayouts
   }
