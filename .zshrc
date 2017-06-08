@@ -29,12 +29,14 @@ case "$TERM" in
       ;;
 esac
 #export ZSH_TMUX_AUTOSTART=true
-alias fbterm="env TERM=fbterm fbterm"
 # Set up in case tilix
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
 		source /etc/profile.d/vte-2.91.sh
 fi
-
+# Setup zsh cli syntax highlighting
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_HIGHLIGHT_HIGLIGHTERS=( main brackets cursor line root pattern )
+ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.npm-global/bin:$HOME/.local/share/bin:$HOME/.cabal/bin:$PATH
 
@@ -90,7 +92,7 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 # For oh-my-zsh Tmux plugin to start:
 
-plugins=(fbterm tmux battery git history colored-man ssh-agent colorize sublime history-substring-search compleat ubuntu debian zsh-syntax-highlighting)
+plugins=(fbterm tmux battery git history colored-man ssh-agent colorize sublime history-substring-search compleat ubuntu debian)
 
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
@@ -151,7 +153,4 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias bigberry='ssh -XY pi@bigberry.caninodevelopments.com'
 alias betaberry='ssh -XY pi@betaberry.caninodevelopments.com'
 alias camberry='ssh -XY pi@camberry.caninodevelopments.com'
-
-ZSH_HIGHLIGHT_HIGLIGHTERS=( main brackets cursor line root pattern )
-ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+alias fbterm="env TERM=fbterm fbterm"
