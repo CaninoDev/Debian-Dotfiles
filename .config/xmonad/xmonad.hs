@@ -8,7 +8,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.Minimize
 import XMonad.Hooks.SetWMName
-import XMonad.Hooks.EwmhDesktops (fullscreenEventHook)
+import XMonad.Hooks.EwmhDesktops (fullscreenEventHook, ewmh)
 import XMonad.Hooks.Place
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
@@ -19,6 +19,9 @@ import XMonad.Layout.Minimize
 import XMonad.Layout.Spacing (smartSpacing)
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
+
+import System.Taffybar.Hooks.PagerHints (pagerHints)
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
@@ -312,16 +315,8 @@ myStartupHook = return ()
 ------------------------------------------------------------------------
 -- Main
 
-main = do
-  xmproc <- spawnPipe "$HOME/.cabal/bin/xmobar $HOME/.xmonad/xmobar.hs"
-  xmonad $ defaults {
-      logHook = dynamicLogWithPP $ xmobarPP {
-            ppOutput = hPutStrLn xmproc
-          , ppTitle = xmobarColor xmobarTitleColor "" . shorten 100
-          , ppCurrent = xmobarColor xmobarCurrentWorkspaceColor ""
-          , ppSep = "   "
-      }
-      , manageHook = manageDocks <+> myManageHook
+main = xmonad $ ewmh $ pagerHints $ defaults {
+      manageHook = manageDocks <+> myManageHook
       , startupHook = setWMName "LG3D"
   }
 defaults = def {
