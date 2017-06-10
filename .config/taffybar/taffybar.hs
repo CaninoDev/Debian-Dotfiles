@@ -6,6 +6,7 @@ import System.Taffybar.SimpleClock
 import System.Taffybar.FreedesktopNotifications
 import System.Taffybar.Weather
 import System.Taffybar.MPRIS
+import System.Taffybar.Battery
 
 import System.Taffybar.Widgets.PollingBar
 import System.Taffybar.Widgets.PollingGraph
@@ -19,8 +20,10 @@ main = do
       note = notifyAreaNew defaultNotificationConfig
       wea = weatherNew (defaultWeatherConfig "KSFO") 10
       mpris = mprisNew defaultMPRISConfig
+      batt = batteryBarNew defaultBatteryConfig 30
+
 
       tray = systrayNew
   defaultTaffybar defaultTaffybarConfig { startWidgets = [ pager, note ]
-                                        , endWidgets = [ tray, wea, clock, mpris ]
+                                        , endWidgets = [ tray, batt, clock, mpris ]
                                         }
