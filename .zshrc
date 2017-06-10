@@ -34,7 +34,11 @@ alias fbterm="env TERM=fbterm fbterm"
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
 		source /etc/profile.d/vte-2.91.sh
 fi
+# Initialize zsh CLI syntax highlighting
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+ZSH_HIGHLIGHT_HIGLIGHTERS=( main brackets cursor line root pattern )
+ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.npm-global/bin:$HOME/.local/share/bin/:$PATH
 
@@ -139,8 +143,6 @@ export PATH="$PATH:$HOME/.rvm/bin:$HOME/.npm-global/bin:/opt/Wire:/opt/Telegram:
 echo "\n"
 #export PATH=/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/home/caninodev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.local/share/go/bin
 # Setup syntax highlighing
-ZSH_HIGHLIGHT_HIGLIGHTERS=( main brackets cursor line root pattern )
-ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
 alias syslog='sudo tail -n 20 /var/log/syslog'
 alias spotify='spotify --force-device-scale-factor=1.4'
 if [[ $TILIX_ID ]]; then
