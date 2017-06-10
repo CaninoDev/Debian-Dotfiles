@@ -2,11 +2,12 @@
   "lastUpgradeScriptRun": "v2.2.0",
   "appId": "10e96e7c569237ec2a11a1dd405b42873823aab5",
   "windowSettings": {
-    "x": 0,
-    "y": 44,
-    "width": 1829,
-    "height": 1099,
-    "maximized": true
+    "x": 8,
+    "y": 549,
+    "width": 838,
+    "height": 510,
+    "fullScreen": false,
+    "maximized": false
   },
   "registration": {
     "email": "ian.canino@gmail.com",
@@ -14,7 +15,7 @@
     "status": "activated",
     "loginType": "github",
     "providerToken": {
-      "access_token": "6bed74df351d3c385f887aebe6b41878c6e46417",
+      "access_token": "26ce7fa2c3c1b2e24efd8317db2d3a956c2802f4",
       "token_type": "bearer",
       "scope": "admin:public_key,repo,user:email",
       "expires_at": null
@@ -23,7 +24,8 @@
     "EULA": {
       "version": "1.5.0",
       "status": "agree_verified"
-    }
+    },
+    "trialStatus": null
   },
   "userId": "bc919fa7-7139-429a-8e81-903972231758",
   "licensedFeatures": []
