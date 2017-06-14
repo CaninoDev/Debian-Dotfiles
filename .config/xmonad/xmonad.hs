@@ -184,8 +184,8 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
   , ((modMask .|. shiftMask,   xK_l        ), spawn "xscreensaver-command -lock")
 
       -- Launch launcher
-  -- , ((modMask,                 xK_x        ), spawn "$HOME/.config/dmenu/dmenu-bind.sh")
-  , ((modMask, 				   xK_x		   ), spawn "rofi -show run")
+  , ((modMask,                 xK_x        ), spawn "$HOME/.config/dmenu/dmenu-bind.sh")
+  -- , ((modMask, 				   xK_x		   ), spawn "rofi -show run")
       -- Startup sublime for xmonad configuration
   , ((modMask,                 xK_e        ), spawn "/usr/bin/subl $HOME/.config/xmonad/xmonad.hs")
 
