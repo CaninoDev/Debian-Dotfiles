@@ -174,7 +174,7 @@ myBorderWidth = 2
 myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
   -----------------------------
   -- CUSTOM KEY BINDINGS
-  
+
   -- --------------------------
   -- Launching and Kill Programs
   -- Start a terminal.  Terminal to start is specified by myTerminal variable.
@@ -202,14 +202,14 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
   , ((modMask,                 xK_a        ), spawn "pavucontrol")
       -- Kill program
   , ((modMask .|. shiftMask,   xK_c        ), kill)
-  
+
   ---------------------------
   -- Layout
   -- Change Layout
   , ((modMask,                 xK_space    ), sendMessage NextLayout)
   -- Change layout to the default layout of the current workspace
   , ((modMask .|. shiftMask,   xK_space    ), setLayout $ XMonad.layoutHook conf)
-  
+
   ---------------------------
   -- Swapping
   -- Swap the focused window and the master window
@@ -220,7 +220,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 
   -- Swap the focused window with the previous window
   , ((modMask .|. shiftMask,   xK_k        ), windows W.swapUp    )
-  
+
   ---------------------------
   -- Resizing
   -- Shrink the master area
@@ -237,7 +237,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
   , ((modMask,                 xK_Tab      ), windows W.focusDown)
   -- Move focus to previous window
   , ((modMask .|. shiftMask,   xK_Tab      ), windows W.focusUp)
-  
+
   , ((modMask .|. shiftMask,   xK_l        ), screenGo R True)
   , ((modMask .|. shiftMask,   xK_h        ), screenGo L True)
   , ((modMask .|. controlMask, xK_l        ), screenSwap R True)
@@ -262,7 +262,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
 
   -- Toggle Mute/Unmute Audio
   , ((0, 0x1008ff12                        ), spawn "amixer -q set Master toggle")
-  -- Decrease Volume 
+  -- Decrease Volume
   , ((0, 0x1008ff11                        ), spawn "amixer -q set Master %5-")
   -- Increase Volume
   , ((0, 0x1008ff13                        ), spawn "amixer -q set Master %5+")

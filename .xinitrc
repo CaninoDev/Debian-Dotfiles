@@ -14,6 +14,7 @@ xset +fp ~/.local/share/fonts/Apple/OpenType/San\ Francisco\ Display
 xset +fp rehash
 xsetroot -cursor_name left_ptr
 xfce4-power-manager &
+stalonetray &
 nm-applet &
 redshift &
 feh --randomize --bg-scale /usr/share/backgrounds/* &
