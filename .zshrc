@@ -149,7 +149,7 @@ fi
 alias svim='sudo nvim'
 alias sysconfig='sudo etckeeper vcs'
 alias spot='spotify -force-device-scale-factor=1.4'
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias bigberry='ssh -XY pi@bigberry.caninodevelopments.com'
 alias betaberry='ssh -XY pi@betaberry.caninodevelopments.com'
 alias camberry='ssh -XY pi@camberry.caninodevelopments.com'
