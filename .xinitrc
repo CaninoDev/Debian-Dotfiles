@@ -10,14 +10,14 @@
 #fi
 xrdb -merge ~/.Xresources
 xset +fp ~/.local/share/fonts/NerdFonts
+xset +fp ~/.local/share/fonts/Apple/OpenType/San\ Francisco\ Display
+xset +fp rehash
 xsetroot -cursor_name left_ptr
-#trayer --edge top --align right --widthtype request --expand true --SetDockType true --SetPartialStrut true --transparent true --alpha $(echo "`expr 255 - $(cat ~/.xmobar/xmobarrc | grep alpha | cut -d "=" -f2 | cut -d " " -f2)`") --tint $coul --expand true --heighttype request --height 23 --padding 1 &
-#trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 6 --transparent true --alpha 100 --tint 0x000000 --height 16 &
 xfce4-power-manager &
 nm-applet &
 redshift &
 feh --randomize --bg-scale /usr/share/backgrounds/* &
 xbacklight -set 35
-$HOME/.cabal/bin/taffybar &
+compton -b
 
 exec ck-launch-session dbus-launch $HOME/.cabal/bin/xmonad
