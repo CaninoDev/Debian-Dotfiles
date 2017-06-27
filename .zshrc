@@ -1,42 +1,44 @@
 # First set the $TERM
-case "$TERM" in
-    xterm*)
-				# I don't want tmux running in xwindows
-				export ZSH_TMUX_AUTOSTART=false
-				if [ -e /lib/terminfo/x/xterm-256color ]; then
-					export TERM=xterm-256color
-				elif [ -e /lib/terminfo/x/xterm-color ]; then
-					export TERM=xterm-color;
-				else
-					export TERM=xterm
-				fi
-	    ;;
-    screen*)
-				# Ditto as above
-				export ZSH_TMUX_AUTOSTART=true
-				if [ -e /lib/terminfo/s/screen-256color ]; then
-					export TERM=screen-256color;
-				elif [ -e /lib/terminfo/s/screen-256color-bce-s ]; then
-					export TERM=screen-256color-bce-s ];
-				else
-					export TERM=screen
-				fi
-	    ;;
-    linux*)
-         export ZSH_TMUX_AUTOSTART=true
-				 export TERM=fbterm
-				 export FBTERM=1
-      ;;
-esac
+#case "$TERM" in
+    #xterm*)
+				## I don't want tmux running in xwindows
+				#export ZSH_TMUX_AUTOSTART=true
+				#if [ -e /lib/terminfo/x/xterm-256color ]; then
+					#export TERM=xterm-256color
+				#elif [ -e /lib/terminfo/x/xterm-color ]; then
+					#export TERM=xterm-color;
+				#else
+					#export TERM=xterm
+				#fi
+			#;;
+    #screen*)
+				## Ditto as above
+				#export ZSH_TMUX_AUTOSTART=true
+				#if [ -e /lib/terminfo/s/screen-256color ]; then
+					#export TERM=screen-256color;
+				#elif [ -e /lib/terminfo/s/screen-256color-bce-s ]; then
+					#export TERM=screen-256color-bce-s ];
+				#else
+					#export TERM=screen
+				#fi
+			#;;
+    #linux*)
+         #export ZSH_TMUX_AUTOSTART=true
+				 #export TERM=fbterm
+				 #export FBTERM=1
+      #;;
+#esac
 #export ZSH_TMUX_AUTOSTART=true
 # Set up in case tilix
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
 		source /etc/profile.d/vte-2.91.sh
 fi
+
 # Setup zsh cli syntax highlighting
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGLIGHTERS=( main brackets cursor line root pattern )
 ZSH_HIGHLIGHT_STYLES[cursor]='bg=red'
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.npm-global/bin:$HOME/.local/share/bin:$HOME/.cabal/bin:$PATH
 
@@ -141,12 +143,8 @@ export PATH="$PATH:$HOME/.rvm/bin:$HOME/.npm-global/bin:/opt/Wire:/opt/Telegram:
 echo "\n"
 #export PATH=/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/usr/local/bin:/home/caninodev/.npm-global/bin:/home/caninodev/bin:/home/caninodev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.rvm/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.npm-global/bin:/home/caninodev/.local/share/go/bin
 # Setup syntax highlighing
-alias syslog='sudo tail -n 20 /var/log/syslog'
-alias spotify='spotify --force-device-scale-factor=1.4'
-if [[ $TILIX_ID ]]; then
-        source /etc/profile.d/vte.sh
-fi
 alias svim='sudo nvim'
+alias syslog='sudo tail -n 20 /var/log/syslog'
 alias sysconfig='sudo etckeeper vcs'
 alias spot='spotify -force-device-scale-factor=1.4'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
