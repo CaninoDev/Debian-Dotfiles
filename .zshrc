@@ -1,33 +1,33 @@
 # First set the $TERM
-#case "$TERM" in
-    #xterm*)
-				## I don't want tmux running in xwindows
-				#export ZSH_TMUX_AUTOSTART=true
-				#if [ -e /lib/terminfo/x/xterm-256color ]; then
-					#export TERM=xterm-256color
-				#elif [ -e /lib/terminfo/x/xterm-color ]; then
-					#export TERM=xterm-color;
-				#else
-					#export TERM=xterm
-				#fi
-			#;;
-    #screen*)
-				## Ditto as above
-				#export ZSH_TMUX_AUTOSTART=true
-				#if [ -e /lib/terminfo/s/screen-256color ]; then
-					#export TERM=screen-256color;
-				#elif [ -e /lib/terminfo/s/screen-256color-bce-s ]; then
-					#export TERM=screen-256color-bce-s ];
-				#else
-					#export TERM=screen
-				#fi
-			#;;
-    #linux*)
-         #export ZSH_TMUX_AUTOSTART=true
-				 #export TERM=fbterm
-				 #export FBTERM=1
-      #;;
-#esac
+case "$TERM" in
+		xterm*)
+				# I don't want tmux running in xwindows
+				export ZSH_TMUX_AUTOSTART=true
+				if [ -e /lib/terminfo/x/xterm-256color ]; then
+					export TERM=xterm-256color
+				elif [ -e /lib/terminfo/x/xterm-color ]; then
+					export TERM=xterm-color;
+				else
+					export TERM=xterm
+				fi
+			;;
+		screen*)
+				# Ditto as above
+				export ZSH_TMUX_AUTOSTART=true
+				if [ -e /lib/terminfo/s/screen-256color ]; then
+					export TERM=screen-256color;
+				elif [ -e /lib/terminfo/s/screen-256color-bce-s ]; then
+					export TERM=screen-256color-bce-s ];
+				else
+					export TERM=screen
+				fi
+			;;
+		linux*)
+				 export ZSH_TMUX_AUTOSTART=true
+				 export TERM=fbterm
+				 export FBTERM=1
+			;;
+esac
 #export ZSH_TMUX_AUTOSTART=true
 # Set up in case tilix
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
