@@ -12,7 +12,7 @@ Config {
 	 -- layout
    , sepChar =  "%"
    , alignSep = "}{"
-   , template = "%StdinReader% }{ %multicpu% | %coretemp% | %batt% | %memory% | %wlp3s0% | %volume% | %brightness% | %date%"
+   , template = "%StdinReader% }{ %multicpu% | %coretemp% | %battery% | %memory% | %wlp3s0wi% | %volume% | %brightness% | %date%"
 
 	 -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
